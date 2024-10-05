@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service ImageTranslateService {
+    rpc Translate (ImageTranslateRequest) returns (ImageTranslateResponse);
+}
+
+message ImageTranslateRequest {
+    bytes image = 1;
+    string language = 2;
+}
+
+message ImageTranslateResponse {
+    bytes image = 1;
+}

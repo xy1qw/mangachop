@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+injector = "*"
+python-dotenv = "*"
+pillow = "*"
+numpy = "*"
+grpcio-tools = "1.59.3"
+protobuf = ">=4.25.3,<5"
+grpcio = ">=1.64.0,<2"
+cachetools = "*"
+yandexcloud = "0.319.0"
+grpcio-reflection = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
