@@ -21,14 +21,18 @@
     "@electron-forge/plugin-fuses": "^7.5.0",
     "@electron-forge/plugin-vite": "^7.5.0",
     "@electron/fuses": "^1.8.0",
+    "@protobuf-ts/protoc": "^2.9.4",
+    "@swc/core": "^1.7.26",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "electron": "32.1.2",
+    "electron-vite": "^2.3.0",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
     "ts-node": "^10.0.0",
     "typescript": "~4.5.4",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "vite-plugin-commonjs": "^0.10.3"
   },
   "keywords": [],
   "author": {
@@ -38,8 +42,15 @@
   "license": "MIT",
   "dependencies": {
     "@grpc/grpc-js": "^1.12.0",
+    "@protobuf-ts/grpc-transport": "^2.9.4",
+    "@protobuf-ts/plugin": "^2.9.4",
+    "dotenv": "^16.4.5",
     "electron-squirrel-startup": "^1.0.1",
     "grpc_tools_node_protoc_ts": "^5.3.3",
-    "grpc-tools": "^1.12.4"
+    "grpc-tools": "^1.12.4",
+    "protoc-gen-grpc": "^2.0.4",
+    "protoc-gen-js": "^3.21.2",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
   }
 }

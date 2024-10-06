@@ -1,8 +1,12 @@
-import { app, BrowserWindow, globalShortcut, Menu, nativeImage, Tray, screen, session } from 'electron';
-import path from 'path';
+import "reflect-metadata";
 
-declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
-declare const MAIN_WINDOW_VITE_NAME: string;
+import { app, BrowserWindow, globalShortcut, Menu, nativeImage, Tray, screen, ipcMain } from 'electron';
+
+import { register } from "./di/module"
+import { container } from 'tsyringe';
+import { ImageTranslateService } from './service/image_translate_service';
+
+register()
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -48,10 +52,13 @@ app.on('ready', () => {
   const tray = new Tray(trayIcon)
 
   tray.on("right-click", () => {
-    tray.popUpContextMenu(Menu.buildFromTemplate([{
-      label: 'Quit',
-      click: () => app.quit()
-    }]));
+    tray.popUpContextMenu(Menu.buildFromTemplate([
+      {
+        label: 'Quit',
+        click: () => app.quit()
+      },
+      testTranslate()
+    ]));
   });
 
   globalShortcut.register('Escape', win.close);
@@ -62,3 +69,36 @@ app.on('ready', () => {
 app.on('window-all-closed', (e: any) => {
   e.preventDefault();
 });
+
+ipcMain.handle('translate', async (_, url) => {
+  const img = await (await fetch(url)).arrayBuffer()
+
+  const result = await container
+    .resolve(ImageTranslateService)
+    .translate(new Uint8Array(img), "ru")
+
+  return result
+})
+
+
+function testTranslate() {
+  let mainWindow: BrowserWindow
+
+  return {
+    label: "Translate image",
+    click: () => {
+      mainWindow?.close()
+
+      mainWindow = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+          nodeIntegration: true,
+          contextIsolation: false,
+        },
+      });
+
+      mainWindow.loadFile('translate-image.html');
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Selector</title>
+</head>
+
+<body>
+    <h1>Select and Display Image</h1>
+    <div>
+        <input class="inp" type="text">
+        <button class="btn">Submit</button>
+        <div>
+            <span></span>
+        </div>
+    </div>
+    <div>
+        <img style="width: 45%;" src="" alt="" class="img-source">
+        <img style="width: 45%;" src="" alt="" class="img-target">
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        document.querySelector(".btn").addEventListener("click", async () => {
+            try {
+                document.querySelector("span").innerText = "Грузим чо..."
+                const text = document.querySelector(".inp").value
+                const result = await ipcRenderer.invoke('translate', text);
+
+                const blob = new Blob([result], { type: "image/png" });
+                const imageUrl = URL.createObjectURL(blob);
+
+                document.querySelector('.img-target').src = imageUrl;
+                document.querySelector('.img-source').src = text;
+            } catch (e) {
+                alert(e)
+            } finally {
+                document.querySelector("span").innerText = ""
+            }
+
+        })
+    </script>
+</body>
+
+</html>

@@ -4,7 +4,7 @@ BACK := ${CURRENT_DIR}/back
 DESKTOP := ${CURRENT_DIR}/desktop
 
 PROTO_TARGET_BACK := ${BACK}/src/generated
-PROTO_TARGET_DESKTOP := ${DESKTOP}/generated
+PROTO_TARGET_DESKTOP := ${DESKTOP}/src/generated
 
 proto_py:
 	cd ${BACK} && \
@@ -20,10 +20,8 @@ proto_py:
 	-exec sed -i '' -E 's/import ([_a-zA-Z0-9]+_grpc)/from . import \1/g' {} \;
 proto_desktop:
 	cd ${DESKTOP} && \
-	npx grpc_tools_node_protoc \
-	--js_out=import_style=commonjs,binary:${PROTO_TARGET_DESKTOP} \
-	--grpc_out=grpc_js:${PROTO_TARGET_DESKTOP} \
-	--ts_out=grpc_js:${PROTO_TARGET_DESKTOP} \
+	npx protoc \
+	--ts_out=${PROTO_TARGET_DESKTOP} \
 	--proto_path=${PROTO_SOURCE} \
 	${PROTO_SOURCE}/*.proto
 proto_gen:
